@@ -2,7 +2,7 @@
 
 A full-stack portfolio project built with **React**, **Vite**, **Express**, **Prisma**, and **PostgreSQL**.
 
-This project is designed as a **game services marketplace demo platform** where users can browse services, place orders, and interact with different roles in the system. It is being developed as a **software engineering portfolio project** to demonstrate frontend development, backend API development, relational database design, Prisma ORM usage, and full-stack project setup.
+This project is designed as a **game services marketplace demo platform** where users can register, log in, browse service types, and later place customized service orders. It is being developed as a **software engineering portfolio project** to demonstrate frontend development, backend API development, relational database design, Prisma ORM usage, authentication, authorization, and full-stack project setup.
 
 ---
 
@@ -17,6 +17,7 @@ The goal is to demonstrate experience in:
 - designing a relational database
 - connecting to a remote PostgreSQL database
 - using Prisma for schema management and migrations
+- implementing secure authentication with bcrypt and JWT
 - structuring a full-stack app with separate client and server folders
 - preparing a project that can later be deployed online
 
@@ -26,26 +27,32 @@ This project is intended to be shown on **GitHub** and potentially referenced on
 
 ## Project Concept
 
-The project is framed as a:
-
-- **Gaming Services Platform**
-- **Game Coaching Marketplace Demo**
-- **Gaming Services Marketplace**
-
-The system is designed to support a marketplace-style structure where users can register, offer services, and place orders.
+The system is designed around a platform-style structure where users can register, authenticate, browse predefined service types, and later place custom orders.
 
 Planned roles include:
-
 - **Customer**
 - **Provider**
 - **Admin**
 
-Initial entities include:
-
+Core entities include:
 - **User**
 - **Profile**
 - **Service**
 - **Order**
+
+### Current service types
+- **Rank Boost**
+- **Placement Boost**
+- **Win Boost**
+- **Hire a Teammate**
+
+### Important design decision
+A **Service** is treated as a **platform-wide service category**, not a user-owned listing.
+
+That means:
+- Service does **not** have a fixed price
+- Service does **not** have `ownerId`
+- Price and request details will belong to the **Order** side later
 
 ---
 
@@ -71,6 +78,8 @@ Initial entities include:
 - bcrypt
 - jsonwebtoken
 - nodemon
+- @prisma/adapter-pg
+- pg
 
 ---
 
@@ -78,8 +87,8 @@ Initial entities include:
 
 ```text
 gaming-services-platform/
-  client/                 # React frontend
-  server/                 # Express backend + Prisma
+  client/
+  server/
   README.md
 ```
 
@@ -91,6 +100,15 @@ server/
     migrations/
     schema.prisma
   src/
+    controllers/
+      authController.js
+      serviceController.js
+    middleware/
+      authMiddleware.js
+    routes/
+      authRoutes.js
+      userRoutes.js
+      serviceRoutes.js
     generated/
       prisma/
     app.js
@@ -105,231 +123,33 @@ server/
 
 ## What We Completed
 
-### 1. Created the root project folder
-We created the main project folder and initialized Git:
-
-```bash
-mkdir gaming-services-platform
-cd gaming-services-platform
-git init
-```
-
----
-
-### 2. Set up the React frontend
-We created the frontend inside a `client` folder using Vite.
-
-```bash
-npm create vite@latest client -- --template react
-```
-
-At first, the setup failed because the machine had an older Node.js version that did not meet Vite’s requirement.
-
-After upgrading Node.js, the React frontend was able to run successfully.
-
----
-
-### 3. Created the backend
-We created a separate `server` folder for the backend and initialized it with npm:
-
-```bash
-mkdir server
-cd server
-npm init -y
-```
-
----
-
-### 4. Installed backend dependencies
-We installed the main backend packages:
-
-```bash
-npm install express cors dotenv prisma @prisma/client bcrypt jsonwebtoken
-npm install -D nodemon @types/node
-```
-
-These packages are used for:
-
-- **express**: backend API server
-- **cors**: communication between frontend and backend on different local ports
-- **dotenv**: environment variable loading
-- **prisma**: Prisma CLI and schema/migration tool
-- **@prisma/client**: generated Prisma client used in code
-- **bcrypt**: future password hashing
-- **jsonwebtoken**: future auth support
-- **nodemon**: restart backend automatically during development
-- **@types/node**: Node typings required by Prisma config tooling
-
----
-
-### 5. Initialized Prisma
-We ran:
-
-```bash
-npx prisma init
-```
-
-This created:
-
-- `prisma/schema.prisma`
-- `prisma.config.ts`
-- `.env`
-
-This project uses the newer Prisma setup where the database connection is configured in `prisma.config.ts`.
-
----
-
-### 6. Set up a remote database
-Initially, the environment file used a local Prisma dev-style URL, which caused migration errors.
-
-To fix this, we created a hosted remote database using:
-
-```bash
-npx create-db
-```
-
-This gave us a real remote PostgreSQL connection string, which we placed in:
-
-`server/.env`
-
----
-
-### 7. Configured Prisma for Prisma 7
-Prisma 7 no longer supports putting the datasource URL directly inside `schema.prisma`.
-
-So instead of this older style:
-
-```prisma
-url = env("DATABASE_URL")
-```
-
-we moved the connection URL to:
-
-`prisma.config.ts`
-
-and kept `schema.prisma` focused on:
-
-- datasource provider
-- models
-- enums
-
----
-
-### 8. Designed the first database schema
-We created the first relational schema using the following models:
-
-- `User`
-- `Profile`
-- `Service`
-- `Order`
-
-And enums:
-
-- `UserRole`
-- `OrderStatus`
-
-These provide the initial structure for a marketplace-style platform.
-
----
-
-### 9. Ran the first migration
-We successfully validated the schema, migrated the database, and generated the Prisma client:
-
-```bash
-npx prisma validate
-npx prisma migrate dev --name init
-npx prisma generate
-```
-
-This confirmed that:
-
-- the schema is valid
-- the remote database is connected
-- the migration was applied
-- the Prisma client was generated successfully
-
----
-
-### 10. Created the Express backend files
-We created the following backend files:
-
-- `src/app.js`
-- `src/index.js`
-- `src/prisma.js`
-
-These files handle:
-
-- Express server setup
-- route handling
-- server startup
-- Prisma client export
-
----
-
-### 11. Updated backend scripts
-We changed the backend `package.json` scripts to:
-
-```json
-"scripts": {
-  "dev": "nodemon src/index.js",
-  "start": "node src/index.js"
-}
-```
-
-This allows the backend to run in development mode.
-
----
-
-### 12. Started and tested the backend
-We ran:
-
-```bash
-npm run dev
-```
-
-The backend started successfully on port `5000`.
-
-We tested the health route:
-
-```text
-http://localhost:5000/api/health
-```
-
-and received:
-
-```json
-{"ok":true,"message":"Server is healthy"}
-```
-
-This confirmed that the backend is working correctly.
-
----
-
-### 13. Ran the frontend and confirmed the local page
-We ran the frontend with:
-
-```bash
-npm run dev
-```
-
-At one point, port `5173` was already in use, so Vite automatically switched to:
-
-```text
-http://localhost:5174/
-```
-
-This is normal behavior.
-
----
-
-### 14. Prepared frontend-backend communication
-We installed frontend packages for API calls and routing:
-
-```bash
-npm install axios react-router-dom
-```
-
-This prepares the frontend to call backend endpoints and support page routing in later steps.
+### Backend and database foundation
+- Express backend created
+- Prisma initialized and configured for Prisma 7
+- Remote PostgreSQL database connected
+- Prisma client generated
+- backend health route working
+
+### Frontend-backend connection
+- frontend page connected to backend health route
+- visible browser confirmation that backend is healthy
+
+### Authentication
+- registration API built
+- password hashing added with bcrypt
+- login API built
+- JWT token generation added
+- auth middleware added
+- protected route tested successfully
+
+### Service system
+- service routes created
+- service schema cleaned up
+- `price` removed from `Service`
+- `ownerId` removed from `Service`
+- old `services` relation removed from `User`
+- admin-only service creation added
+- service creation tested successfully
 
 ---
 
@@ -340,52 +160,44 @@ This prepares the frontend to call backend endpoints and support page routing in
 - Express backend running
 - Prisma configured successfully
 - Remote PostgreSQL database connected
-- First migration applied
-- Prisma client generated
 - Backend health endpoint working
+- Frontend/backend visible connection working
+- User registration working
+- Password hashing with bcrypt working
+- Login working
+- JWT token generation working
+- Auth middleware working
+- Protected route working
+- Admin-only service creation working
+- Public service listing routes available
 
 ### Next logical development steps
-- connect the frontend visibly to the backend health route
-- build user registration API
-- hash passwords with bcrypt
-- build login API
-- add auth middleware
-- create service routes
-- create order routes
+- redesign the `Order` model for custom request data
+- build order creation API
+- build order listing and detail routes
+- later add pricing/quote logic
+- build frontend register/login pages
+- build frontend service list
+- build frontend order form
 - build dashboards for customer, provider, and admin roles
 
 ---
 
 ## How to Run the Project
 
-## 1. Open the frontend (client)
-Open a terminal and run:
-
+### 1. Open the frontend
 ```bash
 cd .../gaming-services-platform/client
 npm install
 npm run dev
 ```
 
-The frontend usually runs at:
-
+The frontend usually runs at a Vite local URL such as:
 ```text
 http://localhost:5173/
 ```
 
-If that port is already in use, Vite will automatically switch to another port, for example:
-
-```text
-http://localhost:5174/
-```
-
-Use the **Local** URL shown in the terminal.
-
----
-
-## 2. Open the backend (server)
-Open a second terminal and run:
-
+### 2. Open the backend
 ```bash
 cd .../gaming-services-platform/server
 npm install
@@ -398,59 +210,28 @@ The backend runs at:
 http://localhost:5000/
 ```
 
-The health check route is:
-
+Health check route:
 ```text
 http://localhost:5000/api/health
 ```
 
-If the backend is running correctly, this route should return:
-
-```json
-{"ok":true,"message":"Server is healthy"}
-```
-
----
-
-## 3. Open the webpage
-To view the actual frontend webpage, open the Vite frontend URL in the browser.
-
-Examples:
-- `http://localhost:5173/`
-- `http://localhost:5174/`
-
-Use whichever **Local** URL appears in the frontend terminal.
+### 3. Open the webpage
+Use the Vite local frontend URL in the browser.
 
 Important:
 - `localhost:5000` = backend API
-- `localhost:5173` or `localhost:5174` = frontend webpage
+- `localhost:5173` (or similar) = frontend webpage
 
----
-
-## 4. Keep both terminals open
-During development, you should usually keep **two terminals** running:
-
-### Terminal 1
-Backend:
-```bash
-cd .../gaming-services-platform/server
-npm run dev
-```
-
-### Terminal 2
-Frontend:
-```bash
-cd .../gaming-services-platform/client
-npm run dev
-```
+### 4. Keep both terminals open
+Development usually needs two terminals:
+- backend terminal
+- frontend terminal
 
 ---
 
 ## How to View the Database
 
-The easiest way to see the database is with **Prisma Studio**.
-
-Open a terminal in the `server` folder and run:
+Use Prisma Studio:
 
 ```bash
 cd .../gaming-services-platform/server
@@ -466,7 +247,7 @@ In Prisma Studio, you can:
 - edit records
 - delete records
 
-Right now, you should at least see these tables:
+Right now, you should see these tables:
 
 - `User`
 - `Profile`
@@ -479,32 +260,32 @@ If there is no data yet, the tables may appear empty, but they should still be v
 
 ## Environment Variables
 
-Create a file:
+Create:
 
 `server/.env`
 
-and add:
-
+Example:
 ```env
 DATABASE_URL="your_database_connection_string"
+JWT_SECRET="your_secret_here"
 ```
 
 Important:
 - do not commit real credentials to GitHub
-- if a DB credential gets exposed, rotate or replace it
+- if a DB credential or JWT secret gets exposed, rotate it
 
 ---
 
 ## Prisma Commands
 
-### Validate the schema
+### Validate schema
 ```bash
 npx prisma validate
 ```
 
-### Run database migration
+### Run migration
 ```bash
-npx prisma migrate dev --name init
+npx prisma migrate dev --name your_migration_name
 ```
 
 ### Generate Prisma client
@@ -512,7 +293,7 @@ npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-### View database in browser
+### View database
 ```bash
 npx prisma studio
 ```
@@ -521,25 +302,62 @@ npx prisma studio
 
 ## API Routes Available Right Now
 
-### Root route
+### Public routes
+
+#### Root route
 ```http
 GET /
 ```
 
-Response:
-```json
-{ "message": "API is running" }
-```
-
-### Health route
+#### Health route
 ```http
 GET /api/health
 ```
 
-Response:
-```json
-{ "ok": true, "message": "Server is healthy" }
+#### Get all services
+```http
+GET /api/services
 ```
+
+#### Get one service by ID
+```http
+GET /api/services/:id
+```
+
+### Auth routes
+
+#### Register
+```http
+POST /api/auth/register
+```
+
+#### Login
+```http
+POST /api/auth/login
+```
+
+Login success response includes:
+- user info
+- JWT token
+
+### Protected routes
+
+#### Current user
+```http
+GET /api/user/me
+```
+
+Requires:
+- Bearer token
+
+#### Create service
+```http
+POST /api/services
+```
+
+Requires:
+- Bearer token
+- `ADMIN` role
 
 ---
 
@@ -568,21 +386,19 @@ Fields include:
 - updatedAt
 
 ### Service
-Represents a service offered by a provider.
+Represents a platform-defined service category.
 
 Fields include:
 - id
 - title
 - description
-- price
-- ownerId
 - createdAt
 - updatedAt
 
 ### Order
 Represents a customer order for a service.
 
-Fields include:
+Current fields include:
 - id
 - customerId
 - serviceId
@@ -591,73 +407,47 @@ Fields include:
 - createdAt
 - updatedAt
 
----
-
-## Development Notes
-
-### Frontend and backend run on different ports
-This project currently uses a split full-stack development setup:
-
-- frontend on a Vite port
-- backend on port `5000`
-
-This is normal in development.
-
-### Why Vite?
-Vite is a faster and more modern option for new React projects. It offers:
-- fast startup
-- quick rebuilds
-- clean development experience
-
-### Why PostgreSQL?
-This project uses relational data with connected entities such as:
-- users
-- profiles
-- services
-- orders
-
-PostgreSQL is a strong choice for structured relational applications.
-
-### Why Prisma?
-Prisma helps with:
-- schema design
-- migrations
-- typed database access
-- database inspection
-- keeping app structure and DB structure aligned
+Important:
+`Order` will be expanded later to handle custom request details and pricing inputs.
 
 ---
 
 ## Security Notes
 
 ### Passwords
-Passwords should never be stored in plain text.
+Passwords are hashed with **bcrypt** and should never be stored in plain text.
 
-This project already includes `bcrypt` for hashing passwords in future auth features.
+### JWT auth
+Protected routes use JWT Bearer tokens.
+
+### Role-based access
+Service creation is restricted to **ADMIN** accounts.
 
 ### Secrets
-Database credentials should remain in `.env` and should not be pushed to GitHub.
+Database credentials and JWT secrets should remain in `.env` and should not be pushed to GitHub.
 
-### Exposed credentials
-If a connection string is ever exposed during development, it should be considered compromised and rotated.
+### API security note
+Security should come from:
+- authentication
+- authorization
+- role checks
+
+not from hiding the API URL.
 
 ---
 
 ## Future Improvements
 
 Planned next features include:
-
-- user registration
-- login
-- password hashing
-- JWT authentication
-- protected routes
-- service creation
-- service listing
+- redesigning the `Order` model
 - order creation
-- role-based dashboards
-- reviews
-- admin management
+- order listing
+- pricing/quote logic
+- frontend register page
+- frontend login page
+- frontend service list
+- frontend order form
+- admin management tools
 - deployment
 
 ---
