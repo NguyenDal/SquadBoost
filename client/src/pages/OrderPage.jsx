@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 
 function OrderPage() {
+  const navigate = useNavigate();
   const { serviceId } = useParams();
 
   const [service, setService] = useState(null);
@@ -111,9 +112,17 @@ function OrderPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    alert(
-      `Demo order created\n\nService: ${service?.title}\nTotal: $${totalPrice}\nRegion: ${formData.region}\nQueue: ${formData.queueType}`
-    );
+    const demoOrder = {
+      serviceId: service.id,
+      serviceTitle: service.title,
+      serviceDescription: service.description || "",
+      totalPrice,
+      formData,
+      createdAt: new Date().toISOString(),
+    };
+
+    localStorage.setItem("demoOrder", JSON.stringify(demoOrder));
+    navigate(`/match/${service.id}`);
   };
 
   if (loading) {
