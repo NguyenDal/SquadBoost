@@ -75,11 +75,11 @@ const sendPasswordResetEmail = async ({ to, resetUrl }) => {
   await transporter.sendMail({
     from: process.env.SMTP_FROM,
     to,
-    subject: "Reset your SquadBoost password",
+    subject: "Reset your FastBoost password",
     html: `
       <div style="font-family: Arial, sans-serif; line-height: 1.6;">
         <h2>Reset your password</h2>
-        <p>We received a request to reset your SquadBoost password.</p>
+        <p>We received a request to reset your FastBoost password.</p>
         <p>
           <a
             href="${resetUrl}"

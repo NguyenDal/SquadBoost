@@ -74,13 +74,13 @@ function HomePage() {
 
   const serviceImageMap = {
     "Rank Boost":
-      "https://squadboost-assets.s3.amazonaws.com/services/rank-boost.webp",
+      "https://fastboost-assets.s3.amazonaws.com/services/rank-boost.webp",
     "Placement Boost":
-      "https://squadboost-assets.s3.amazonaws.com/services/placement-boost.webp",
+      "https://fastboost-assets.s3.amazonaws.com/services/placement-boost.webp",
     "Win Boost":
-      "https://squadboost-assets.s3.amazonaws.com/services/win-boost.png",
-    "Hire a Teammate":
-      "https://squadboost-assets.s3.amazonaws.com/services/hire-a-teammate.png",
+      "https://fastboost-assets.s3.amazonaws.com/services/win-boost.png",
+    "Pro Duo":
+      "https://fastboost-assets.s3.amazonaws.com/services/hire-a-teammate.png",
   };
 
   const patchHighlights = [
@@ -155,7 +155,7 @@ function HomePage() {
     "Rank Boost": 1,
     "Placement Boost": 2,
     "Win Boost": 3,
-    "Hire a Teammate": 4,
+    "Pro Duo": 4,
   };
 
   const featuredServices = [...services]
@@ -263,7 +263,7 @@ function HomePage() {
     setAuthSuccess(true);
     setAuthMessage("");
     setAuthSuccessTitle("Login Successful");
-    setAuthSuccessText("Welcome to SquadBoost.");
+    setAuthSuccessText("Welcome to FastBoost.");
 
     setTimeout(() => {
       closeAuthModal();
@@ -461,9 +461,9 @@ function HomePage() {
     <div className="app-shell">
       <header className="topbar">
         <div className="brand">
-          <div className="brand-icon">S</div>
+          <div className="brand-icon">F</div>
           <div>
-            <p className="brand-title">SquadBoost</p>
+            <p className="brand-title">FastBoost</p>
             <p className="brand-subtitle">League Services Platform</p>
           </div>
         </div>

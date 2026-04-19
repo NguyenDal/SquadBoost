@@ -16,7 +16,7 @@ function App() {
       <Route path="/order/:serviceId" element={<OrderPage />} />
       <Route path="/services/:serviceId" element={<ServiceDetailsPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
-      <Route path="/match/:serviceId" element={<MatchPage />} />
+      <Route path="/match/:orderId" element={<MatchPage />} />
     </Routes>
   );
 }
