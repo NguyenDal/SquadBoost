@@ -191,6 +191,7 @@ function OrderPage() {
     formData.currentRank,
     formData.desiredRank,
     formData.currentLP,
+    formData.lpGain,
     formData.peakRank,
     formData.placementGames,
     formData.desiredWins,
@@ -1432,19 +1433,12 @@ function getTierFromAnyRank(rank) {
   return (rank || "").split(" ")[0];
 }
 
-function getLpBandModifierForDivision(lpText) {
-  if (lpText === "0-20 LP") return 1.1;
-  if (lpText === "21-40 LP") return 1;
-  if (lpText === "41-60 LP") return 0.95;
-  if (lpText === "61-80 LP" || lpText === "81-99 LP") return 0.9;
-  return 1;
-}
-
-function getLpBandModifierForNetWins(lpText) {
+function getCurrentLpProgressModifier(lpText) {
   if (lpText === "0-20 LP") return 1;
-  if (lpText === "21-40 LP") return 1;
-  if (lpText === "41-60 LP") return 1.05;
-  if (lpText === "61-80 LP" || lpText === "81-99 LP") return 1.1;
+  if (lpText === "21-40 LP") return 4 / 5;
+  if (lpText === "41-60 LP") return 3 / 5;
+  if (lpText === "61-80 LP") return 2 / 5;
+  if (lpText === "81-99 LP") return 1 / 5;
   return 1;
 }
 
@@ -1481,7 +1475,7 @@ function calculateRankBoostPrice(currentRank, desiredRank, currentLP, lpGain) {
     if (i === currentIndex) {
       total +=
         stepPrice *
-        getLpBandModifierForDivision(currentLP) *
+        getCurrentLpProgressModifier(currentLP) *
         getLpGainModifierForDivision(lpGain);
     } else {
       total += stepPrice * getLpGainModifierForDivision(lpGain);
