@@ -1433,12 +1433,12 @@ function getTierFromAnyRank(rank) {
   return (rank || "").split(" ")[0];
 }
 
-function getCurrentLpProgressModifier(lpText) {
-  if (lpText === "0-20 LP") return 1;
-  if (lpText === "21-40 LP") return 4 / 5;
-  if (lpText === "41-60 LP") return 3 / 5;
-  if (lpText === "61-80 LP") return 2 / 5;
-  if (lpText === "81-99 LP") return 1 / 5;
+function getCurrentLpProgressModifier(lpGain) {
+  if (lpGain === "0-20 LP") return 1;
+  if (lpGain === "21-40 LP") return 4 / 5;
+  if (lpGain === "41-60 LP") return 3 / 5;
+  if (lpGain === "61-80 LP") return 2 / 5;
+  if (lpGain === "81-99 LP") return 1 / 5;
   return 1;
 }
 
