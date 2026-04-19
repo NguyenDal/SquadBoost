@@ -54,7 +54,7 @@ function LoginPage() {
         <p className="section-label">Account Access</p>
         <h1>Login</h1>
         <p className="section-description">
-          Sign in to continue your SquadBoost experience.
+          Sign in to continue your FastBoost experience.
         </p>
 
         <input

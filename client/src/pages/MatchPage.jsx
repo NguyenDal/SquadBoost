@@ -164,9 +164,9 @@ function MatchPage() {
             <div className="order-page-container">
                 <div className="order-page-topbar">
                     <Link to="/" className="order-page-brand">
-                        <div className="brand-icon">S</div>
+                        <div className="brand-icon">F</div>
                         <div>
-                            <p className="brand-title">SquadBoost</p>
+                            <p className="brand-title">FastBoost</p>
                             <p className="brand-subtitle">Match & Chat</p>
                         </div>
                     </Link>

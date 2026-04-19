@@ -162,9 +162,9 @@ function OrderPage() {
       <div className="order-page-container">
         <div className="order-page-topbar">
           <Link to="/" className="order-page-brand">
-            <div className="brand-icon">S</div>
+            <div className="brand-icon">F</div>
             <div>
-              <p className="brand-title">SquadBoost</p>
+              <p className="brand-title">FastBoost</p>
               <p className="brand-subtitle">Order Configurator</p>
             </div>
           </Link>
@@ -843,14 +843,14 @@ function OrderPage() {
 }
 
 const rankImageMap = {
-  Iron: "https://squadboost-assets.s3.amazonaws.com/services/ranks/iron.png",
-  Bronze: "https://squadboost-assets.s3.amazonaws.com/services/ranks/bronze.png",
-  Silver: "https://squadboost-assets.s3.amazonaws.com/services/ranks/silver.png",
-  Gold: "https://squadboost-assets.s3.amazonaws.com/services/ranks/gold.png",
-  Platinum: "https://squadboost-assets.s3.amazonaws.com/services/ranks/platinum.png",
-  Emerald: "https://squadboost-assets.s3.amazonaws.com/services/ranks/emerald.png",
-  Diamond: "https://squadboost-assets.s3.amazonaws.com/services/ranks/diamond.png",
-  Master: "https://squadboost-assets.s3.amazonaws.com/services/ranks/master.png",
+  Iron: "https://fastboost-assets.s3.amazonaws.com/services/ranks/iron.png",
+  Bronze: "https://fastboost-assets.s3.amazonaws.com/services/ranks/bronze.png",
+  Silver: "https://fastboost-assets.s3.amazonaws.com/services/ranks/silver.png",
+  Gold: "https://fastboost-assets.s3.amazonaws.com/services/ranks/gold.png",
+  Platinum: "https://fastboost-assets.s3.amazonaws.com/services/ranks/platinum.png",
+  Emerald: "https://fastboost-assets.s3.amazonaws.com/services/ranks/emerald.png",
+  Diamond: "https://fastboost-assets.s3.amazonaws.com/services/ranks/diamond.png",
+  Master: "https://fastboost-assets.s3.amazonaws.com/services/ranks/master.png",
 };
 
 const tierOrder = [

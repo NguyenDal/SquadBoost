@@ -1,4 +1,4 @@
-# Gaming Services Platform (SquadBoost)
+# Gaming Services Platform (FastBoost)
 
 A full-stack portfolio project built with **React**, **Vite**, **Express**, **Prisma**, and **PostgreSQL**.
 
@@ -9,7 +9,7 @@ This project is a **game services marketplace demo** where users can register, l
 ## What’s new (latest progress)
 
 ### Frontend (Homepage/Auth UI)
-- Built a premium, dark gaming-style homepage (“SquadBoost”) with sections:
+- Built a premium, dark gaming-style homepage (“FastBoost”) with sections:
   - Navbar (anchors: Home / Services / Latest Patch / Status)
   - Hero banner + side feature card
   - Services section with hover-based service cards
@@ -54,7 +54,7 @@ This project is a **game services marketplace demo** where users can register, l
 
 ### Image hosting (Deploy-friendly)
 - Created an AWS S3 bucket for **public website assets**:
-  - Bucket: `squadboost-assets`
+  - Bucket: `fastboost-assets`
   - Folder: `services/`
   - Uploaded 4 service images:
     - `rank-boost.webp`
@@ -242,7 +242,7 @@ SMTP_PORT="587"
 SMTP_SECURE="false"
 SMTP_USER="your_email_here"
 SMTP_PASS="your_google_app_password"
-SMTP_FROM="SquadBoost <your_email_here>"
+SMTP_FROM="FastBoost <your_email_here>"
 ```
 
 ✅ Do **not** commit `.env` to GitHub.
