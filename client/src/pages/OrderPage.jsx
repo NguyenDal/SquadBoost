@@ -9,7 +9,8 @@ function OrderPage() {
   const [service, setService] = useState(null);
   const [selectedBoostType, setSelectedBoostType] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [loadError, setLoadError] = useState("");
+  const [submitError, setSubmitError] = useState("");
 
   const [formData, setFormData] = useState({
     currentRank: "Silver I",
@@ -50,7 +51,7 @@ function OrderPage() {
         setService(normalizedService);
         setSelectedBoostType(normalizedService.title);
       } catch (error) {
-        setError("Could not load this service");
+        setLoadError("Could not load this service");
       } finally {
         setLoading(false);
       }
@@ -116,20 +117,66 @@ function OrderPage() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const demoOrder = {
-      serviceId: service.id,
-      serviceTitle: serviceType,
-      serviceDescription: service.description || "",
-      totalPrice,
-      formData,
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      setSubmitError("");
 
-    localStorage.setItem("demoOrder", JSON.stringify(demoOrder));
-    navigate(`/match/${service.id}`);
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setSubmitError("Please log in before placing an order.");
+        return;
+      }
+
+      const response = await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          serviceId: service.id,
+          boostType: serviceType,
+          currentRank: formData.currentRank,
+          desiredRank: formData.desiredRank,
+          currentLP: formData.currentLP,
+          peakRank: formData.peakRank,
+          desiredWins: formData.desiredWins,
+          placementGames: formData.placementGames,
+          preferredRole: formData.preferredRole,
+          numberOfGames: formData.numberOfGames,
+          region: formData.region,
+          queueType: formData.queueType,
+          playMode: formData.playMode,
+          priorityOrder: formData.priorityOrder,
+          duoWithBooster: formData.duoWithBooster,
+          liveStream: formData.liveStream,
+          appearOffline: formData.appearOffline,
+          championsRoles: formData.championsRoles,
+          bonusWin: formData.bonusWin,
+          soloOnly: formData.soloOnly,
+          undercoverWinrate: formData.undercoverWinrate,
+          moderateKDA: formData.moderateKDA,
+          highMMRDuo: formData.highMMRDuo,
+          basePrice,
+          addonPrice,
+          totalPrice,
+          notes: formData.notes,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to create order");
+      }
+
+      navigate(`/match/${data.order.id}`);
+    } catch (error) {
+      setSubmitError(error.message || "Could not create order");
+    }
   };
 
   if (loading) {
@@ -142,11 +189,11 @@ function OrderPage() {
     );
   }
 
-  if (error || !service) {
+  if (loadError || !service) {
     return (
       <div className="order-page-shell">
         <div className="order-page-container">
-          <p className="error-message">{error || "Service not found."}</p>
+          <p className="error-message">{loadError || "Service not found."}</p>
           <Link to="/" className="secondary-btn details-link-btn">
             Back to homepage
           </Link>
@@ -831,10 +878,12 @@ function OrderPage() {
               </div>
             </div>
 
+            {submitError && <p className="error-message">{submitError}</p>}
+
             <button type="submit" className="primary-btn order-submit-btn">
               Continue
             </button>
-            
+
           </aside>
         </form>
       </div>

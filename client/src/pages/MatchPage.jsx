@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "../App.css";
 
@@ -48,7 +48,7 @@ const demoBoosters = [
 ];
 
 function MatchPage() {
-    const { serviceId } = useParams();
+    const { orderId } = useParams();
 
     const [order, setOrder] = useState(null);
     const [matchStatus, setMatchStatus] = useState("searching");
@@ -64,16 +64,35 @@ function MatchPage() {
     const [chatInput, setChatInput] = useState("");
 
     useEffect(() => {
-        try {
-            const savedOrder = localStorage.getItem("demoOrder");
+        const fetchOrder = async () => {
+            try {
+                const token = localStorage.getItem("token");
 
-            if (savedOrder) {
-                setOrder(JSON.parse(savedOrder));
+                if (!token) {
+                    setOrder(null);
+                    return;
+                }
+
+                const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || "Failed to load order");
+                }
+
+                setOrder(data.order);
+            } catch (error) {
+                setOrder(null);
             }
-        } catch (error) {
-            setOrder(null);
-        }
-    }, []);
+        };
+
+        fetchOrder();
+    }, [orderId]);
 
     useEffect(() => {
         if (!order) return;
@@ -95,7 +114,7 @@ function MatchPage() {
                     {
                         id: prev.length + 2,
                         sender: "booster",
-                        text: `Hey! I’m ${match.name}. I’ve reviewed your ${order.serviceTitle} request and I’m ready to help.`,
+                        text: `Hey! I’m ${match.name}. I’ve reviewed your ${order.boostType || order.service?.title} request and I’m ready to help.`,
                         timestamp: "3:39 PM",
                     },
                 ]);
@@ -115,11 +134,6 @@ function MatchPage() {
 
         return () => clearTimeout(timer);
     }, [order]);
-
-    const statusText = useMemo(() => {
-        if (matchStatus === "matched") return "Booster matched";
-        return "Searching for booster...";
-    }, [matchStatus]);
 
     const handleSendMessage = (event) => {
         event.preventDefault();
@@ -148,7 +162,7 @@ function MatchPage() {
         return (
             <div className="order-page-shell">
                 <div className="order-page-container">
-                    <p className="error-message">No demo order found.</p>
+                    <p className="error-message">Order not found.</p>
                     <Link to="/" className="secondary-btn details-link-btn">
                         Back to homepage
                     </Link>
@@ -181,7 +195,7 @@ function MatchPage() {
                         <p className="section-label">Order Status</p>
                         <h1 className="service-banner-title">{getOrderTitle(order)}</h1>
                         <p className="service-banner-meta">
-                            #{order.orderId || "483498"} • Total ${order.totalPrice}
+                            #{order.id} • Total ${order.totalPrice}
                         </p>
                     </div>
 
@@ -309,19 +323,19 @@ function MatchPage() {
                             <div className="option-list">
                                 <div className="option-row">
                                     <span>Play with Booster</span>
-                                    <strong>{order.formData.duoWithBooster ? "Active" : "Off"}</strong>
+                                    <strong>{order.duoWithBooster ? "Active" : "Off"}</strong>
                                 </div>
                                 <div className="option-row">
                                     <span>Priority Order</span>
-                                    <strong>{order.formData.priorityOrder ? "Active" : "Off"}</strong>
+                                    <strong>{order.priorityOrder ? "Active" : "Off"}</strong>
                                 </div>
                                 <div className="option-row">
                                     <span>Live Stream</span>
-                                    <strong>{order.formData.liveStream ? "Active" : "Off"}</strong>
+                                    <strong>{order.liveStream ? "Active" : "Off"}</strong>
                                 </div>
                                 <div className="option-row">
                                     <span>Appear Offline</span>
-                                    <strong>{order.formData.appearOffline ? "Active" : "Off"}</strong>
+                                    <strong>{order.appearOffline ? "Active" : "Off"}</strong>
                                 </div>
                             </div>
                         </div>
@@ -376,15 +390,15 @@ function MatchPage() {
                             <div className="info-list">
                                 <div className="info-row">
                                     <span>Region</span>
-                                    <strong>{order.formData.region}</strong>
+                                    <strong>{order.region || "-"}</strong>
                                 </div>
                                 <div className="info-row">
                                     <span>Queue</span>
-                                    <strong>{order.formData.queueType}</strong>
+                                    <strong>{order.queueType || "-"}</strong>
                                 </div>
                                 <div className="info-row">
                                     <span>Service</span>
-                                    <strong>{order.serviceTitle}</strong>
+                                    <strong>{order.boostType || order.service?.title || "-"}</strong>
                                 </div>
                             </div>
                         </div>
@@ -415,7 +429,7 @@ function MatchPage() {
 }
 
 function findDemoBooster(order) {
-    const region = order?.formData?.region;
+    const region = order?.region;
 
     if (!region) return null;
 
@@ -436,23 +450,23 @@ function renderStars(rating) {
 function getOrderTitle(order) {
     if (!order) return "Service Match";
 
-    if (order.serviceTitle === "Rank Boost") {
-        return `Rank Boost — ${order.formData.currentRank} to ${order.formData.desiredRank}`;
+    if (order.boostType === "Rank Boost") {
+        return `Rank Boost — ${order.currentRank} to ${order.desiredRank}`;
     }
 
-    if (order.serviceTitle === "Placement Boost") {
-        return `Placement Boost — ${order.formData.placementGames} Placement Games`;
+    if (order.boostType === "Placement Boost") {
+        return `Placement Boost — ${order.placementGames} Placement Games`;
     }
 
-    if (order.serviceTitle === "Win Boost") {
-        return `Win Boost — ${order.formData.desiredWins} Ranked Wins`;
+    if (order.boostType === "Win Boost") {
+        return `Win Boost — ${order.desiredWins} Ranked Wins`;
     }
 
-    if (order.serviceTitle === "Pro Duo") {
-        return `Pro Duo — ${order.formData.numberOfGames} Games`;
+    if (order.boostType === "Pro Duo") {
+        return `Pro Duo — ${order.numberOfGames} Games`;
     }
 
-    return order.serviceTitle;
+    return order.boostType || order.service?.title || "Service Match";
 }
 
 export default MatchPage;
