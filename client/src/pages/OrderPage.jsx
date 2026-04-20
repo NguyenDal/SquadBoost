@@ -16,6 +16,8 @@ function OrderPage() {
     currentRank: "Silver I",
     desiredRank: "Gold IV",
     currentLP: "0-20 LP",
+    currentMasterLp: 0,
+    desiredMasterLp: 50,
     lpGain: "",
     peakRank: "Unranked",
     desiredWins: "",
@@ -78,6 +80,8 @@ function OrderPage() {
         return {
           ...prev,
           currentLP: "0-20 LP",
+          currentMasterLp: 0,
+          desiredMasterLp: 50,
           lpGain: "18-23 LP / win",
           desiredWins: "",
           placementGames: "",
@@ -146,11 +150,32 @@ function OrderPage() {
     loadChampions();
   }, []);
 
+  const isInvalidRankPath = useMemo(() => {
+    if (serviceType !== "Rank Boost") return false;
 
+    const currentTier = getTierFromAnyRank(formData.currentRank);
+    const desiredTier = getTierFromAnyRank(formData.desiredRank);
 
-  const isInvalidRankPath =
-    serviceType === "Rank Boost" &&
-    rankOptions.indexOf(formData.desiredRank) <= rankOptions.indexOf(formData.currentRank);
+    if (currentTier === "Master" && desiredTier === "Master") {
+      return Number(formData.desiredMasterLp) <= Number(formData.currentMasterLp);
+    }
+
+    if (currentTier === "Master" && desiredTier !== "Master") {
+      return true;
+    }
+
+    if (currentTier !== "Master" && desiredTier === "Master") {
+      return false;
+    }
+
+    return rankOptions.indexOf(formData.desiredRank) <= rankOptions.indexOf(formData.currentRank);
+  }, [
+    serviceType,
+    formData.currentRank,
+    formData.desiredRank,
+    formData.currentMasterLp,
+    formData.desiredMasterLp,
+  ]);
 
   const basePrice = useMemo(() => {
     if (serviceType === "Rank Boost") {
@@ -158,7 +183,9 @@ function OrderPage() {
         formData.currentRank,
         formData.desiredRank,
         formData.currentLP,
-        formData.lpGain
+        formData.lpGain,
+        formData.currentMasterLp,
+        formData.desiredMasterLp
       );
     }
 
@@ -191,6 +218,8 @@ function OrderPage() {
     formData.currentRank,
     formData.desiredRank,
     formData.currentLP,
+    formData.currentMasterLp,
+    formData.desiredMasterLp,
     formData.lpGain,
     formData.peakRank,
     formData.placementGames,
@@ -414,6 +443,13 @@ function OrderPage() {
           currentRank: formData.currentRank,
           desiredRank: formData.desiredRank,
           currentLP: formData.currentLP,
+          currentMasterLp: isMasterRank(formData.currentRank)
+            ? Number(formData.currentMasterLp)
+            : null,
+          desiredMasterLp: isMasterRank(formData.desiredRank)
+            ? Number(formData.desiredMasterLp)
+            : null,
+          lpGain: formData.lpGain || null,
           peakRank: formData.peakRank,
           desiredWins: formData.desiredWins,
           placementGames: formData.placementGames,
@@ -585,36 +621,100 @@ function OrderPage() {
                       </div>
                     )}
 
-                    <div className="rank-bottom-selects">
-                      <div className="order-field">
-                        <label>Current LP</label>
-                        <select
-                          name="currentLP"
-                          value={formData.currentLP}
-                          onChange={handleInputChange}
-                        >
-                          <option>0-20 LP</option>
-                          <option>21-40 LP</option>
-                          <option>41-60 LP</option>
-                          <option>61-80 LP</option>
-                          <option>81-99 LP</option>
-                        </select>
-                      </div>
+                    {getTierFromRank(formData.currentRank) === "Master" ? (
+                      <div className="rank-bottom-selects">
+                        <div className="order-field">
+                          <label>Current LP</label>
+                          <div className="master-lp-stepper">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  currentMasterLp: Math.max(0, (prev.currentMasterLp || 0) - 1),
+                                }))
+                              }
+                            >
+                              -
+                            </button>
 
-                      <div className="order-field">
-                        <label>LP per win</label>
-                        <select
-                          name="lpGain"
-                          value={formData.lpGain}
-                          onChange={handleInputChange}
-                        >
-                          <option>0-18 LP / win</option>
-                          <option>18-23 LP / win</option>
-                          <option>23-28 LP / win</option>
-                          <option>28+ LP / win</option>
-                        </select>
+                            <input
+                              type="number"
+                              min="0"
+                              max="999"
+                              value={formData.currentMasterLp}
+                              onChange={(event) =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  currentMasterLp: Math.max(
+                                    0,
+                                    Math.min(999, Number(event.target.value) || 0)
+                                  ),
+                                }))
+                              }
+                              className="master-lp-input"
+                            />
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  currentMasterLp: Math.min(999, (prev.currentMasterLp || 0) + 1),
+                                }))
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="order-field">
+                          <label>LP per win</label>
+                          <select
+                            name="lpGain"
+                            value={formData.lpGain}
+                            onChange={handleInputChange}
+                          >
+                            <option>0-18 LP / win</option>
+                            <option>18-23 LP / win</option>
+                            <option>23-28 LP / win</option>
+                            <option>28+ LP / win</option>
+                          </select>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="rank-bottom-selects">
+                        <div className="order-field">
+                          <label>Current LP</label>
+                          <select
+                            name="currentLP"
+                            value={formData.currentLP}
+                            onChange={handleInputChange}
+                          >
+                            <option>0-20 LP</option>
+                            <option>21-40 LP</option>
+                            <option>41-60 LP</option>
+                            <option>61-80 LP</option>
+                            <option>81-99 LP</option>
+                          </select>
+                        </div>
+
+                        <div className="order-field">
+                          <label>LP per win</label>
+                          <select
+                            name="lpGain"
+                            value={formData.lpGain}
+                            onChange={handleInputChange}
+                          >
+                            <option>0-18 LP / win</option>
+                            <option>18-23 LP / win</option>
+                            <option>23-28 LP / win</option>
+                            <option>28+ LP / win</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="rank-selector-divider">↓</div>
@@ -648,56 +748,123 @@ function OrderPage() {
                       ))}
                     </div>
 
-                    {getTierFromRank(formData.desiredRank) !== "Master" && (
-                      <div className="rank-division-row">
-                        {divisionOrder.map((division) => (
-                          <button
-                            key={`desired-division-${division}`}
-                            type="button"
-                            className={`rank-division-btn ${getDivisionFromRank(formData.desiredRank) === division ? "active" : ""
-                              }`}
-                            onClick={() =>
-                              updateRankSelection(setFormData, "desiredRank", null, division)
-                            }
+                    {getTierFromRank(formData.desiredRank) === "Master" ? (
+                      <>
+                        <div className="rank-bottom-selects">
+                          <div className="order-field">
+                            <label>Desired LP</label>
+                            <div className="master-lp-stepper">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    desiredMasterLp: Math.max(0, (prev.desiredMasterLp || 0) - 1),
+                                  }))
+                                }
+                              >
+                                -
+                              </button>
+
+                              <input
+                                type="number"
+                                min="0"
+                                max="999"
+                                value={formData.desiredMasterLp}
+                                onChange={(event) =>
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    desiredMasterLp: Math.max(
+                                      0,
+                                      Math.min(999, Number(event.target.value) || 0)
+                                    ),
+                                  }))
+                                }
+                                className="master-lp-input"
+                              />
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    desiredMasterLp: Math.min(999, (prev.desiredMasterLp || 0) + 1),
+                                  }))
+                                }
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="rank-bottom-selects">
+                          <div className="order-field">
+                            <label>Server</label>
+                            <select
+                              name="region"
+                              value={formData.region}
+                              onChange={handleInputChange}
+                            >
+                              <option>North America</option>
+                              <option>Europe West</option>
+                              <option>Europe Nordic & East</option>
+                              <option>Korea</option>
+                              <option>Brazil</option>
+                              <option>Latin America North</option>
+                              <option>Latin America South</option>
+                              <option>Oceania</option>
+                              <option>Japan</option>
+                            </select>
+                          </div>
+
+                          <div className="order-field">
+                            <label>Queue Type</label>
+                            <select
+                              name="queueType"
+                              value={formData.queueType}
+                              onChange={handleInputChange}
+                            >
+                              <option>Solo/Duo</option>
+                              <option>Flex</option>
+                            </select>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="rank-bottom-selects">
+                        <div className="order-field">
+                          <label>Server</label>
+                          <select
+                            name="region"
+                            value={formData.region}
+                            onChange={handleInputChange}
                           >
-                            {division}
-                          </button>
-                        ))}
+                            <option>North America</option>
+                            <option>Europe West</option>
+                            <option>Europe Nordic & East</option>
+                            <option>Korea</option>
+                            <option>Brazil</option>
+                            <option>Latin America North</option>
+                            <option>Latin America South</option>
+                            <option>Oceania</option>
+                            <option>Japan</option>
+                          </select>
+                        </div>
+
+                        <div className="order-field">
+                          <label>Queue Type</label>
+                          <select
+                            name="queueType"
+                            value={formData.queueType}
+                            onChange={handleInputChange}
+                          >
+                            <option>Solo/Duo</option>
+                            <option>Flex</option>
+                          </select>
+                        </div>
                       </div>
                     )}
-
-                    <div className="rank-bottom-selects">
-                      <div className="order-field">
-                        <label>Server</label>
-                        <select
-                          name="region"
-                          value={formData.region}
-                          onChange={handleInputChange}
-                        >
-                          <option>North America</option>
-                          <option>Europe West</option>
-                          <option>Europe Nordic & East</option>
-                          <option>Korea</option>
-                          <option>Brazil</option>
-                          <option>Latin America North</option>
-                          <option>Latin America South</option>
-                          <option>Oceania</option>
-                          <option>Japan</option>
-                        </select>
-                      </div>
-
-                      <div className="order-field">
-                        <label>Queue Type</label>
-                        <select
-                          name="queueType"
-                          value={formData.queueType}
-                          onChange={handleInputChange}
-                        >
-                          <option>Solo/Duo</option>
-                          <option>Flex</option>
-                        </select>
-                      </div>
-                    </div>
                   </div>
                 </>
               )}
@@ -1433,6 +1600,15 @@ function getTierFromAnyRank(rank) {
   return (rank || "").split(" ")[0];
 }
 
+function isMasterRank(rank) {
+  return getTierFromAnyRank(rank) === "Master";
+}
+
+function clampMasterLp(value) {
+  const num = Number(value) || 0;
+  return Math.max(0, Math.min(999, num));
+}
+
 function getCurrentLpProgressModifier(lpGain) {
   if (lpGain === "0-20 LP") return 1;
   if (lpGain === "21-40 LP") return 4 / 5;
@@ -1458,7 +1634,64 @@ function getLpGainModifierForNetWins(lpGain) {
   return 1;
 }
 
-function calculateRankBoostPrice(currentRank, desiredRank, currentLP, lpGain) {
+function getMasterLpBasePrice(startLp, endLp) {
+  const safeStart = clampMasterLp(startLp);
+  const safeEnd = clampMasterLp(endLp);
+
+  if (safeEnd <= safeStart) return 0;
+
+  const lpTo100 = Math.max(0, Math.min(safeEnd, 100) - safeStart);
+  const lpAbove100 = Math.max(0, safeEnd - Math.max(safeStart, 100));
+
+  return lpTo100 * 1 + lpAbove100 * 1.5;
+}
+
+function calculateRankBoostPrice(
+  currentRank,
+  desiredRank,
+  currentLP,
+  lpGain,
+  currentMasterLp,
+  desiredMasterLp
+) {
+  const currentTier = getTierFromAnyRank(currentRank);
+  const desiredTier = getTierFromAnyRank(desiredRank);
+
+  if (currentTier === "Master" && desiredTier === "Master") {
+    return (
+      getMasterLpBasePrice(currentMasterLp, desiredMasterLp) *
+      getLpGainModifierForDivision(lpGain)
+    );
+  }
+
+  if (currentTier !== "Master" && desiredTier === "Master") {
+    const currentIndex = rankOptions.indexOf(currentRank);
+
+    if (currentIndex === -1) return 0;
+
+    let total = 0;
+
+    for (let i = currentIndex; i < rankOptions.length; i += 1) {
+      const stepRank = rankOptions[i];
+      const stepPrice = divisionStepPrices[stepRank] || 0;
+
+      if (i === currentIndex) {
+        total +=
+          stepPrice *
+          getCurrentLpProgressModifier(currentLP) *
+          getLpGainModifierForDivision(lpGain);
+      } else {
+        total += stepPrice * getLpGainModifierForDivision(lpGain);
+      }
+    }
+
+    total +=
+      getMasterLpBasePrice(0, desiredMasterLp) *
+      getLpGainModifierForDivision(lpGain);
+
+    return total;
+  }
+
   const currentIndex = rankOptions.indexOf(currentRank);
   const desiredIndex = rankOptions.indexOf(desiredRank);
 

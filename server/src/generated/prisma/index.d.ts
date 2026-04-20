@@ -4635,6 +4635,8 @@ export namespace Prisma {
   }
 
   export type OrderAvgAggregateOutputType = {
+    currentMasterLp: number | null
+    desiredMasterLp: number | null
     desiredWins: number | null
     placementGames: number | null
     numberOfGames: number | null
@@ -4644,6 +4646,8 @@ export namespace Prisma {
   }
 
   export type OrderSumAggregateOutputType = {
+    currentMasterLp: number | null
+    desiredMasterLp: number | null
     desiredWins: number | null
     placementGames: number | null
     numberOfGames: number | null
@@ -4665,7 +4669,10 @@ export namespace Prisma {
     queueType: string | null
     currentRank: string | null
     currentLP: string | null
+    currentMasterLp: number | null
     desiredRank: string | null
+    desiredMasterLp: number | null
+    lpGain: string | null
     peakRank: string | null
     desiredWins: number | null
     placementGames: number | null
@@ -4697,7 +4704,10 @@ export namespace Prisma {
     queueType: string | null
     currentRank: string | null
     currentLP: string | null
+    currentMasterLp: number | null
     desiredRank: string | null
+    desiredMasterLp: number | null
+    lpGain: string | null
     peakRank: string | null
     desiredWins: number | null
     placementGames: number | null
@@ -4729,7 +4739,10 @@ export namespace Prisma {
     queueType: number
     currentRank: number
     currentLP: number
+    currentMasterLp: number
     desiredRank: number
+    desiredMasterLp: number
+    lpGain: number
     peakRank: number
     desiredWins: number
     placementGames: number
@@ -4752,6 +4765,8 @@ export namespace Prisma {
 
 
   export type OrderAvgAggregateInputType = {
+    currentMasterLp?: true
+    desiredMasterLp?: true
     desiredWins?: true
     placementGames?: true
     numberOfGames?: true
@@ -4761,6 +4776,8 @@ export namespace Prisma {
   }
 
   export type OrderSumAggregateInputType = {
+    currentMasterLp?: true
+    desiredMasterLp?: true
     desiredWins?: true
     placementGames?: true
     numberOfGames?: true
@@ -4782,7 +4799,10 @@ export namespace Prisma {
     queueType?: true
     currentRank?: true
     currentLP?: true
+    currentMasterLp?: true
     desiredRank?: true
+    desiredMasterLp?: true
+    lpGain?: true
     peakRank?: true
     desiredWins?: true
     placementGames?: true
@@ -4814,7 +4834,10 @@ export namespace Prisma {
     queueType?: true
     currentRank?: true
     currentLP?: true
+    currentMasterLp?: true
     desiredRank?: true
+    desiredMasterLp?: true
+    lpGain?: true
     peakRank?: true
     desiredWins?: true
     placementGames?: true
@@ -4846,7 +4869,10 @@ export namespace Prisma {
     queueType?: true
     currentRank?: true
     currentLP?: true
+    currentMasterLp?: true
     desiredRank?: true
+    desiredMasterLp?: true
+    lpGain?: true
     peakRank?: true
     desiredWins?: true
     placementGames?: true
@@ -4966,7 +4992,10 @@ export namespace Prisma {
     queueType: string | null
     currentRank: string | null
     currentLP: string | null
+    currentMasterLp: number | null
     desiredRank: string | null
+    desiredMasterLp: number | null
+    lpGain: string | null
     peakRank: string | null
     desiredWins: number | null
     placementGames: number | null
@@ -5018,7 +5047,10 @@ export namespace Prisma {
     queueType?: boolean
     currentRank?: boolean
     currentLP?: boolean
+    currentMasterLp?: boolean
     desiredRank?: boolean
+    desiredMasterLp?: boolean
+    lpGain?: boolean
     peakRank?: boolean
     desiredWins?: boolean
     placementGames?: boolean
@@ -5053,7 +5085,10 @@ export namespace Prisma {
     queueType?: boolean
     currentRank?: boolean
     currentLP?: boolean
+    currentMasterLp?: boolean
     desiredRank?: boolean
+    desiredMasterLp?: boolean
+    lpGain?: boolean
     peakRank?: boolean
     desiredWins?: boolean
     placementGames?: boolean
@@ -5088,7 +5123,10 @@ export namespace Prisma {
     queueType?: boolean
     currentRank?: boolean
     currentLP?: boolean
+    currentMasterLp?: boolean
     desiredRank?: boolean
+    desiredMasterLp?: boolean
+    lpGain?: boolean
     peakRank?: boolean
     desiredWins?: boolean
     placementGames?: boolean
@@ -5123,7 +5161,10 @@ export namespace Prisma {
     queueType?: boolean
     currentRank?: boolean
     currentLP?: boolean
+    currentMasterLp?: boolean
     desiredRank?: boolean
+    desiredMasterLp?: boolean
+    lpGain?: boolean
     peakRank?: boolean
     desiredWins?: boolean
     placementGames?: boolean
@@ -5143,7 +5184,7 @@ export namespace Prisma {
     totalPrice?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "serviceId" | "status" | "createdAt" | "updatedAt" | "boostType" | "playMode" | "region" | "queueType" | "currentRank" | "currentLP" | "desiredRank" | "peakRank" | "desiredWins" | "placementGames" | "numberOfGames" | "firstRole" | "secondRole" | "selectedChampions" | "priorityOrder" | "duoWithBooster" | "liveStream" | "appearOffline" | "bonusWin" | "soloOnly" | "highMMRDuo" | "basePrice" | "addonPrice" | "totalPrice", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "serviceId" | "status" | "createdAt" | "updatedAt" | "boostType" | "playMode" | "region" | "queueType" | "currentRank" | "currentLP" | "currentMasterLp" | "desiredRank" | "desiredMasterLp" | "lpGain" | "peakRank" | "desiredWins" | "placementGames" | "numberOfGames" | "firstRole" | "secondRole" | "selectedChampions" | "priorityOrder" | "duoWithBooster" | "liveStream" | "appearOffline" | "bonusWin" | "soloOnly" | "highMMRDuo" | "basePrice" | "addonPrice" | "totalPrice", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
@@ -5176,7 +5217,10 @@ export namespace Prisma {
       queueType: string | null
       currentRank: string | null
       currentLP: string | null
+      currentMasterLp: number | null
       desiredRank: string | null
+      desiredMasterLp: number | null
+      lpGain: string | null
       peakRank: string | null
       desiredWins: number | null
       placementGames: number | null
@@ -5631,7 +5675,10 @@ export namespace Prisma {
     readonly queueType: FieldRef<"Order", 'String'>
     readonly currentRank: FieldRef<"Order", 'String'>
     readonly currentLP: FieldRef<"Order", 'String'>
+    readonly currentMasterLp: FieldRef<"Order", 'Int'>
     readonly desiredRank: FieldRef<"Order", 'String'>
+    readonly desiredMasterLp: FieldRef<"Order", 'Int'>
+    readonly lpGain: FieldRef<"Order", 'String'>
     readonly peakRank: FieldRef<"Order", 'String'>
     readonly desiredWins: FieldRef<"Order", 'Int'>
     readonly placementGames: FieldRef<"Order", 'Int'>
@@ -7206,7 +7253,10 @@ export namespace Prisma {
     queueType: 'queueType',
     currentRank: 'currentRank',
     currentLP: 'currentLP',
+    currentMasterLp: 'currentMasterLp',
     desiredRank: 'desiredRank',
+    desiredMasterLp: 'desiredMasterLp',
+    lpGain: 'lpGain',
     peakRank: 'peakRank',
     desiredWins: 'desiredWins',
     placementGames: 'placementGames',
@@ -7592,7 +7642,10 @@ export namespace Prisma {
     queueType?: StringNullableFilter<"Order"> | string | null
     currentRank?: StringNullableFilter<"Order"> | string | null
     currentLP?: StringNullableFilter<"Order"> | string | null
+    currentMasterLp?: IntNullableFilter<"Order"> | number | null
     desiredRank?: StringNullableFilter<"Order"> | string | null
+    desiredMasterLp?: IntNullableFilter<"Order"> | number | null
+    lpGain?: StringNullableFilter<"Order"> | string | null
     peakRank?: StringNullableFilter<"Order"> | string | null
     desiredWins?: IntNullableFilter<"Order"> | number | null
     placementGames?: IntNullableFilter<"Order"> | number | null
@@ -7627,7 +7680,10 @@ export namespace Prisma {
     queueType?: SortOrderInput | SortOrder
     currentRank?: SortOrderInput | SortOrder
     currentLP?: SortOrderInput | SortOrder
+    currentMasterLp?: SortOrderInput | SortOrder
     desiredRank?: SortOrderInput | SortOrder
+    desiredMasterLp?: SortOrderInput | SortOrder
+    lpGain?: SortOrderInput | SortOrder
     peakRank?: SortOrderInput | SortOrder
     desiredWins?: SortOrderInput | SortOrder
     placementGames?: SortOrderInput | SortOrder
@@ -7665,7 +7721,10 @@ export namespace Prisma {
     queueType?: StringNullableFilter<"Order"> | string | null
     currentRank?: StringNullableFilter<"Order"> | string | null
     currentLP?: StringNullableFilter<"Order"> | string | null
+    currentMasterLp?: IntNullableFilter<"Order"> | number | null
     desiredRank?: StringNullableFilter<"Order"> | string | null
+    desiredMasterLp?: IntNullableFilter<"Order"> | number | null
+    lpGain?: StringNullableFilter<"Order"> | string | null
     peakRank?: StringNullableFilter<"Order"> | string | null
     desiredWins?: IntNullableFilter<"Order"> | number | null
     placementGames?: IntNullableFilter<"Order"> | number | null
@@ -7700,7 +7759,10 @@ export namespace Prisma {
     queueType?: SortOrderInput | SortOrder
     currentRank?: SortOrderInput | SortOrder
     currentLP?: SortOrderInput | SortOrder
+    currentMasterLp?: SortOrderInput | SortOrder
     desiredRank?: SortOrderInput | SortOrder
+    desiredMasterLp?: SortOrderInput | SortOrder
+    lpGain?: SortOrderInput | SortOrder
     peakRank?: SortOrderInput | SortOrder
     desiredWins?: SortOrderInput | SortOrder
     placementGames?: SortOrderInput | SortOrder
@@ -7741,7 +7803,10 @@ export namespace Prisma {
     queueType?: StringNullableWithAggregatesFilter<"Order"> | string | null
     currentRank?: StringNullableWithAggregatesFilter<"Order"> | string | null
     currentLP?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    currentMasterLp?: IntNullableWithAggregatesFilter<"Order"> | number | null
     desiredRank?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    desiredMasterLp?: IntNullableWithAggregatesFilter<"Order"> | number | null
+    lpGain?: StringNullableWithAggregatesFilter<"Order"> | string | null
     peakRank?: StringNullableWithAggregatesFilter<"Order"> | string | null
     desiredWins?: IntNullableWithAggregatesFilter<"Order"> | number | null
     placementGames?: IntNullableWithAggregatesFilter<"Order"> | number | null
@@ -8029,7 +8094,10 @@ export namespace Prisma {
     queueType?: string | null
     currentRank?: string | null
     currentLP?: string | null
+    currentMasterLp?: number | null
     desiredRank?: string | null
+    desiredMasterLp?: number | null
+    lpGain?: string | null
     peakRank?: string | null
     desiredWins?: number | null
     placementGames?: number | null
@@ -8064,7 +8132,10 @@ export namespace Prisma {
     queueType?: string | null
     currentRank?: string | null
     currentLP?: string | null
+    currentMasterLp?: number | null
     desiredRank?: string | null
+    desiredMasterLp?: number | null
+    lpGain?: string | null
     peakRank?: string | null
     desiredWins?: number | null
     placementGames?: number | null
@@ -8095,7 +8166,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8130,7 +8204,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8163,7 +8240,10 @@ export namespace Prisma {
     queueType?: string | null
     currentRank?: string | null
     currentLP?: string | null
+    currentMasterLp?: number | null
     desiredRank?: string | null
+    desiredMasterLp?: number | null
+    lpGain?: string | null
     peakRank?: string | null
     desiredWins?: number | null
     placementGames?: number | null
@@ -8194,7 +8274,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8227,7 +8310,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8605,7 +8691,10 @@ export namespace Prisma {
     queueType?: SortOrder
     currentRank?: SortOrder
     currentLP?: SortOrder
+    currentMasterLp?: SortOrder
     desiredRank?: SortOrder
+    desiredMasterLp?: SortOrder
+    lpGain?: SortOrder
     peakRank?: SortOrder
     desiredWins?: SortOrder
     placementGames?: SortOrder
@@ -8626,6 +8715,8 @@ export namespace Prisma {
   }
 
   export type OrderAvgOrderByAggregateInput = {
+    currentMasterLp?: SortOrder
+    desiredMasterLp?: SortOrder
     desiredWins?: SortOrder
     placementGames?: SortOrder
     numberOfGames?: SortOrder
@@ -8647,7 +8738,10 @@ export namespace Prisma {
     queueType?: SortOrder
     currentRank?: SortOrder
     currentLP?: SortOrder
+    currentMasterLp?: SortOrder
     desiredRank?: SortOrder
+    desiredMasterLp?: SortOrder
+    lpGain?: SortOrder
     peakRank?: SortOrder
     desiredWins?: SortOrder
     placementGames?: SortOrder
@@ -8679,7 +8773,10 @@ export namespace Prisma {
     queueType?: SortOrder
     currentRank?: SortOrder
     currentLP?: SortOrder
+    currentMasterLp?: SortOrder
     desiredRank?: SortOrder
+    desiredMasterLp?: SortOrder
+    lpGain?: SortOrder
     peakRank?: SortOrder
     desiredWins?: SortOrder
     placementGames?: SortOrder
@@ -8699,6 +8796,8 @@ export namespace Prisma {
   }
 
   export type OrderSumOrderByAggregateInput = {
+    currentMasterLp?: SortOrder
+    desiredMasterLp?: SortOrder
     desiredWins?: SortOrder
     placementGames?: SortOrder
     numberOfGames?: SortOrder
@@ -9362,7 +9461,10 @@ export namespace Prisma {
     queueType?: string | null
     currentRank?: string | null
     currentLP?: string | null
+    currentMasterLp?: number | null
     desiredRank?: string | null
+    desiredMasterLp?: number | null
+    lpGain?: string | null
     peakRank?: string | null
     desiredWins?: number | null
     placementGames?: number | null
@@ -9395,7 +9497,10 @@ export namespace Prisma {
     queueType?: string | null
     currentRank?: string | null
     currentLP?: string | null
+    currentMasterLp?: number | null
     desiredRank?: string | null
+    desiredMasterLp?: number | null
+    lpGain?: string | null
     peakRank?: string | null
     desiredWins?: number | null
     placementGames?: number | null
@@ -9504,7 +9609,10 @@ export namespace Prisma {
     queueType?: StringNullableFilter<"Order"> | string | null
     currentRank?: StringNullableFilter<"Order"> | string | null
     currentLP?: StringNullableFilter<"Order"> | string | null
+    currentMasterLp?: IntNullableFilter<"Order"> | number | null
     desiredRank?: StringNullableFilter<"Order"> | string | null
+    desiredMasterLp?: IntNullableFilter<"Order"> | number | null
+    lpGain?: StringNullableFilter<"Order"> | string | null
     peakRank?: StringNullableFilter<"Order"> | string | null
     desiredWins?: IntNullableFilter<"Order"> | number | null
     placementGames?: IntNullableFilter<"Order"> | number | null
@@ -9650,7 +9758,10 @@ export namespace Prisma {
     queueType?: string | null
     currentRank?: string | null
     currentLP?: string | null
+    currentMasterLp?: number | null
     desiredRank?: string | null
+    desiredMasterLp?: number | null
+    lpGain?: string | null
     peakRank?: string | null
     desiredWins?: number | null
     placementGames?: number | null
@@ -9683,7 +9794,10 @@ export namespace Prisma {
     queueType?: string | null
     currentRank?: string | null
     currentLP?: string | null
+    currentMasterLp?: number | null
     desiredRank?: string | null
+    desiredMasterLp?: number | null
+    lpGain?: string | null
     peakRank?: string | null
     desiredWins?: number | null
     placementGames?: number | null
@@ -9909,7 +10023,10 @@ export namespace Prisma {
     queueType?: string | null
     currentRank?: string | null
     currentLP?: string | null
+    currentMasterLp?: number | null
     desiredRank?: string | null
+    desiredMasterLp?: number | null
+    lpGain?: string | null
     peakRank?: string | null
     desiredWins?: number | null
     placementGames?: number | null
@@ -9948,7 +10065,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9981,7 +10101,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10013,7 +10136,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10069,7 +10195,10 @@ export namespace Prisma {
     queueType?: string | null
     currentRank?: string | null
     currentLP?: string | null
+    currentMasterLp?: number | null
     desiredRank?: string | null
+    desiredMasterLp?: number | null
+    lpGain?: string | null
     peakRank?: string | null
     desiredWins?: number | null
     placementGames?: number | null
@@ -10100,7 +10229,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10133,7 +10265,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10165,7 +10300,10 @@ export namespace Prisma {
     queueType?: NullableStringFieldUpdateOperationsInput | string | null
     currentRank?: NullableStringFieldUpdateOperationsInput | string | null
     currentLP?: NullableStringFieldUpdateOperationsInput | string | null
+    currentMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
     desiredRank?: NullableStringFieldUpdateOperationsInput | string | null
+    desiredMasterLp?: NullableIntFieldUpdateOperationsInput | number | null
+    lpGain?: NullableStringFieldUpdateOperationsInput | string | null
     peakRank?: NullableStringFieldUpdateOperationsInput | string | null
     desiredWins?: NullableIntFieldUpdateOperationsInput | number | null
     placementGames?: NullableIntFieldUpdateOperationsInput | number | null

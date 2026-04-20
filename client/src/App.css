@@ -1235,8 +1235,9 @@ button {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
   padding-top: 10px;
+  padding-bottom: 14px;
   border-top: 1px solid rgba(98, 112, 203, 0.12);
-  align-items: end;
+  align-items: start;
 }
 
 .rank-selector-divider {
@@ -2433,6 +2434,53 @@ button {
 .price-warning-box-blocking {
   margin-top: 18px;
   margin-bottom: 0;
+}
+
+.master-lp-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(3, 10, 35, 0.9);
+}
+
+.master-lp-stepper button {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.master-lp-stepper span {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.master-lp-input {
+  width: 90px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.master-lp-input::-webkit-outer-spin-button,
+.master-lp-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.master-lp-input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 @keyframes successPop {

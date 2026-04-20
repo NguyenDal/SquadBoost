@@ -51,13 +51,16 @@ model Order {
   region    String?
   queueType String?
 
-  currentRank    String?
-  currentLP      String?
-  desiredRank    String?
-  peakRank       String?
-  desiredWins    Int?
-  placementGames Int?
-  numberOfGames  Int?
+  currentRank     String?
+  currentLP       String?
+  currentMasterLp Int?
+  desiredRank     String?
+  desiredMasterLp Int?
+  lpGain          String?
+  peakRank        String?
+  desiredWins     Int?
+  placementGames  Int?
+  numberOfGames   Int?
 
   firstRole         String?
   secondRole        String?

@@ -8,6 +8,9 @@ const createOrder = async (req, res) => {
             currentRank,
             desiredRank,
             currentLP,
+            currentMasterLp,
+            desiredMasterLp,
+            lpGain,
             peakRank,
             desiredWins,
             placementGames,
@@ -66,6 +69,13 @@ const createOrder = async (req, res) => {
                 currentRank: currentRank || null,
                 desiredRank: desiredRank || null,
                 currentLP: currentLP || null,
+                currentMasterLp: currentMasterLp !== null && currentMasterLp !== undefined
+                    ? Number(currentMasterLp)
+                    : null,
+                desiredMasterLp: desiredMasterLp !== null && desiredMasterLp !== undefined
+                    ? Number(desiredMasterLp)
+                    : null,
+                lpGain: lpGain || null,
                 peakRank: peakRank || null,
                 desiredWins: desiredWins ? Number(desiredWins) : null,
                 placementGames: placementGames ? Number(placementGames) : null,
