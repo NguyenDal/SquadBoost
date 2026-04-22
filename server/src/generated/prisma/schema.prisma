@@ -66,13 +66,13 @@ model Order {
   secondRole        String?
   selectedChampions Json?
 
-  priorityOrder  Boolean @default(false)
-  duoWithBooster Boolean @default(false)
-  liveStream     Boolean @default(false)
-  appearOffline  Boolean @default(false)
-  bonusWin       Boolean @default(false)
-  soloOnly       Boolean @default(false)
-  highMMRDuo     Boolean @default(false)
+  priorityOrder   Boolean @default(false)
+  premiumCoaching Boolean @default(false)
+  liveStream      Boolean @default(false)
+  appearOffline   Boolean @default(false)
+  bonusWin        Boolean @default(false)
+  soloOnly        Boolean @default(false)
+  highMMRDuo      Boolean @default(false)
 
   basePrice  Float @default(0)
   addonPrice Float @default(0)

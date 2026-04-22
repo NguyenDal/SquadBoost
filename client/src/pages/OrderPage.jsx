@@ -78,9 +78,10 @@ function OrderPage() {
     queueType: "Solo/Duo",
     playMode: "Solo",
     priorityOrder: false,
-    duoWithBooster: false,
+    premiumCoaching: false,
     liveStream: false,
     appearOffline: false,
+    untrackableDuo: false,
     bonusWin: false,
     soloOnly: false,
     highMMRDuo: false,
@@ -278,29 +279,41 @@ function OrderPage() {
     formData.numberOfGames,
   ]);
 
+  const modeAdjustedBasePrice = useMemo(() => {
+    if (formData.playMode === "Duo") {
+      return basePrice * 1.4;
+    }
+
+    return basePrice;
+  }, [basePrice, formData.playMode]);
+
   const addonPrice = useMemo(() => {
     let total = 0;
 
-    if (formData.priorityOrder) total += basePrice * 0.15;
-    if (formData.playMode === "Duo" && formData.duoWithBooster) {
-      total += basePrice * 0.4;
-    }
-    if (formData.soloOnly) total += basePrice * 0.3;
-    if (formData.highMMRDuo) total += basePrice * 0.2;
+    const duoExtra = formData.playMode === "Duo" ? basePrice * 0.4 : 0;
+
+    if (formData.priorityOrder) total += modeAdjustedBasePrice * 0.15;
+    if (formData.premiumCoaching) total += modeAdjustedBasePrice * 0.4;
+    if (formData.soloOnly) total += modeAdjustedBasePrice * 0.3;
+    if (formData.highMMRDuo) total += modeAdjustedBasePrice * 0.2;
+    if (formData.untrackableDuo) total += modeAdjustedBasePrice * 0.3;
 
     if (formData.bonusWin) {
-      total += getBonusWinPriceByRank(formData.currentRank);
+      total += getBonusWinPriceByRank(formData.currentRank, formData.playMode);
     }
 
-    total += getChampionPreferencePrice(basePrice, formData.championPreferenceTier);
+    total += getChampionPreferencePrice(modeAdjustedBasePrice, formData.championPreferenceTier);
 
-    return total;
+    return duoExtra + total;
   }, [
     basePrice,
+    modeAdjustedBasePrice,
+    formData.playMode,
     formData.priorityOrder,
-    formData.duoWithBooster,
+    formData.premiumCoaching,
     formData.soloOnly,
     formData.highMMRDuo,
+    formData.untrackableDuo,
     formData.bonusWin,
     formData.currentRank,
     formData.championPreferenceTier,
@@ -585,7 +598,7 @@ function OrderPage() {
     }
   };
 
-    const handleRegisterSubmit = async (event) => {
+  const handleRegisterSubmit = async (event) => {
     event.preventDefault();
     setAuthLoading(true);
     setAuthMessage("");
@@ -683,9 +696,10 @@ function OrderPage() {
           queueType: formData.queueType,
           playMode: formData.playMode,
           priorityOrder: formData.priorityOrder,
-          duoWithBooster: formData.duoWithBooster,
+          premiumCoaching: formData.premiumCoaching,
           liveStream: formData.liveStream,
           appearOffline: formData.appearOffline,
+          untrackableDuo: formData.untrackableDuo,
           championPreferenceTier: formData.championPreferenceTier,
           bonusWin: formData.bonusWin,
           soloOnly: formData.soloOnly,
@@ -995,6 +1009,24 @@ function OrderPage() {
                       ))}
                     </div>
 
+                    {getTierFromRank(formData.desiredRank) !== "Master" && (
+                      <div className="rank-division-row">
+                        {divisionOrder.map((division) => (
+                          <button
+                            key={`desired-division-${division}`}
+                            type="button"
+                            className={`rank-division-btn ${getDivisionFromRank(formData.desiredRank) === division ? "active" : ""
+                              }`}
+                            onClick={() =>
+                              updateRankSelection(setFormData, "desiredRank", null, division)
+                            }
+                          >
+                            {division}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
                     {getTierFromRank(formData.desiredRank) === "Master" ? (
                       <>
                         <div className="rank-bottom-selects">
@@ -1272,7 +1304,7 @@ function OrderPage() {
                   setFormData((prev) => ({
                     ...prev,
                     playMode: "Solo",
-                    duoWithBooster: false,
+                    premiumCoaching: false,
                   }))
                 }
               >
@@ -1396,8 +1428,8 @@ function OrderPage() {
                       <span className="order-addon-switch">
                         <input
                           type="checkbox"
-                          name="duoWithBooster"
-                          checked={formData.duoWithBooster}
+                          name="premiumCoaching"
+                          checked={formData.premiumCoaching}
                           onChange={handleInputChange}
                         />
                         <span className="order-addon-slider" />
@@ -1446,8 +1478,8 @@ function OrderPage() {
                       <span className="order-addon-switch">
                         <input
                           type="checkbox"
-                          name="appearOffline"
-                          checked={formData.appearOffline}
+                          name="untrackableDuo"
+                          checked={formData.untrackableDuo}
                           onChange={handleInputChange}
                         />
                         <span className="order-addon-slider" />
@@ -2045,15 +2077,21 @@ function calculateProDuoPrice(currentRank, lpGain, numberOfGames) {
   return winBoostEquivalent * 0.75 * safeGames;
 }
 
-function getBonusWinPriceByRank(currentRank) {
+function getBonusWinPriceByRank(currentRank, playMode = "Solo") {
   const tier = getTierFromAnyRank(currentRank);
 
-  if (tier === "Silver") return 3;
-  if (tier === "Gold") return 5;
-  if (tier === "Platinum" || tier === "Emerald" || tier === "Diamond") return 6;
-  if (tier === "Master") return 30;
+  let soloPrice = 0;
 
-  return 0;
+  if (tier === "Silver") soloPrice = 3;
+  else if (tier === "Gold") soloPrice = 5;
+  else if (tier === "Platinum" || tier === "Emerald" || tier === "Diamond") soloPrice = 6;
+  else if (tier === "Master") soloPrice = 30;
+
+  if (playMode === "Duo") {
+    return soloPrice * 1.4;
+  }
+
+  return soloPrice;
 }
 
 function getChampionPreferencePrice(basePrice, tier) {

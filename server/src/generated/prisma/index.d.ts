@@ -4680,7 +4680,7 @@ export namespace Prisma {
     firstRole: string | null
     secondRole: string | null
     priorityOrder: boolean | null
-    duoWithBooster: boolean | null
+    premiumCoaching: boolean | null
     liveStream: boolean | null
     appearOffline: boolean | null
     bonusWin: boolean | null
@@ -4715,7 +4715,7 @@ export namespace Prisma {
     firstRole: string | null
     secondRole: string | null
     priorityOrder: boolean | null
-    duoWithBooster: boolean | null
+    premiumCoaching: boolean | null
     liveStream: boolean | null
     appearOffline: boolean | null
     bonusWin: boolean | null
@@ -4751,7 +4751,7 @@ export namespace Prisma {
     secondRole: number
     selectedChampions: number
     priorityOrder: number
-    duoWithBooster: number
+    premiumCoaching: number
     liveStream: number
     appearOffline: number
     bonusWin: number
@@ -4810,7 +4810,7 @@ export namespace Prisma {
     firstRole?: true
     secondRole?: true
     priorityOrder?: true
-    duoWithBooster?: true
+    premiumCoaching?: true
     liveStream?: true
     appearOffline?: true
     bonusWin?: true
@@ -4845,7 +4845,7 @@ export namespace Prisma {
     firstRole?: true
     secondRole?: true
     priorityOrder?: true
-    duoWithBooster?: true
+    premiumCoaching?: true
     liveStream?: true
     appearOffline?: true
     bonusWin?: true
@@ -4881,7 +4881,7 @@ export namespace Prisma {
     secondRole?: true
     selectedChampions?: true
     priorityOrder?: true
-    duoWithBooster?: true
+    premiumCoaching?: true
     liveStream?: true
     appearOffline?: true
     bonusWin?: true
@@ -5004,7 +5004,7 @@ export namespace Prisma {
     secondRole: string | null
     selectedChampions: JsonValue | null
     priorityOrder: boolean
-    duoWithBooster: boolean
+    premiumCoaching: boolean
     liveStream: boolean
     appearOffline: boolean
     bonusWin: boolean
@@ -5059,7 +5059,7 @@ export namespace Prisma {
     secondRole?: boolean
     selectedChampions?: boolean
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -5097,7 +5097,7 @@ export namespace Prisma {
     secondRole?: boolean
     selectedChampions?: boolean
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -5135,7 +5135,7 @@ export namespace Prisma {
     secondRole?: boolean
     selectedChampions?: boolean
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -5173,7 +5173,7 @@ export namespace Prisma {
     secondRole?: boolean
     selectedChampions?: boolean
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -5184,7 +5184,7 @@ export namespace Prisma {
     totalPrice?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "serviceId" | "status" | "createdAt" | "updatedAt" | "boostType" | "playMode" | "region" | "queueType" | "currentRank" | "currentLP" | "currentMasterLp" | "desiredRank" | "desiredMasterLp" | "lpGain" | "peakRank" | "desiredWins" | "placementGames" | "numberOfGames" | "firstRole" | "secondRole" | "selectedChampions" | "priorityOrder" | "duoWithBooster" | "liveStream" | "appearOffline" | "bonusWin" | "soloOnly" | "highMMRDuo" | "basePrice" | "addonPrice" | "totalPrice", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "serviceId" | "status" | "createdAt" | "updatedAt" | "boostType" | "playMode" | "region" | "queueType" | "currentRank" | "currentLP" | "currentMasterLp" | "desiredRank" | "desiredMasterLp" | "lpGain" | "peakRank" | "desiredWins" | "placementGames" | "numberOfGames" | "firstRole" | "secondRole" | "selectedChampions" | "priorityOrder" | "premiumCoaching" | "liveStream" | "appearOffline" | "bonusWin" | "soloOnly" | "highMMRDuo" | "basePrice" | "addonPrice" | "totalPrice", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
@@ -5229,7 +5229,7 @@ export namespace Prisma {
       secondRole: string | null
       selectedChampions: Prisma.JsonValue | null
       priorityOrder: boolean
-      duoWithBooster: boolean
+      premiumCoaching: boolean
       liveStream: boolean
       appearOffline: boolean
       bonusWin: boolean
@@ -5687,7 +5687,7 @@ export namespace Prisma {
     readonly secondRole: FieldRef<"Order", 'String'>
     readonly selectedChampions: FieldRef<"Order", 'Json'>
     readonly priorityOrder: FieldRef<"Order", 'Boolean'>
-    readonly duoWithBooster: FieldRef<"Order", 'Boolean'>
+    readonly premiumCoaching: FieldRef<"Order", 'Boolean'>
     readonly liveStream: FieldRef<"Order", 'Boolean'>
     readonly appearOffline: FieldRef<"Order", 'Boolean'>
     readonly bonusWin: FieldRef<"Order", 'Boolean'>
@@ -7265,7 +7265,7 @@ export namespace Prisma {
     secondRole: 'secondRole',
     selectedChampions: 'selectedChampions',
     priorityOrder: 'priorityOrder',
-    duoWithBooster: 'duoWithBooster',
+    premiumCoaching: 'premiumCoaching',
     liveStream: 'liveStream',
     appearOffline: 'appearOffline',
     bonusWin: 'bonusWin',
@@ -7654,7 +7654,7 @@ export namespace Prisma {
     secondRole?: StringNullableFilter<"Order"> | string | null
     selectedChampions?: JsonNullableFilter<"Order">
     priorityOrder?: BoolFilter<"Order"> | boolean
-    duoWithBooster?: BoolFilter<"Order"> | boolean
+    premiumCoaching?: BoolFilter<"Order"> | boolean
     liveStream?: BoolFilter<"Order"> | boolean
     appearOffline?: BoolFilter<"Order"> | boolean
     bonusWin?: BoolFilter<"Order"> | boolean
@@ -7692,7 +7692,7 @@ export namespace Prisma {
     secondRole?: SortOrderInput | SortOrder
     selectedChampions?: SortOrderInput | SortOrder
     priorityOrder?: SortOrder
-    duoWithBooster?: SortOrder
+    premiumCoaching?: SortOrder
     liveStream?: SortOrder
     appearOffline?: SortOrder
     bonusWin?: SortOrder
@@ -7733,7 +7733,7 @@ export namespace Prisma {
     secondRole?: StringNullableFilter<"Order"> | string | null
     selectedChampions?: JsonNullableFilter<"Order">
     priorityOrder?: BoolFilter<"Order"> | boolean
-    duoWithBooster?: BoolFilter<"Order"> | boolean
+    premiumCoaching?: BoolFilter<"Order"> | boolean
     liveStream?: BoolFilter<"Order"> | boolean
     appearOffline?: BoolFilter<"Order"> | boolean
     bonusWin?: BoolFilter<"Order"> | boolean
@@ -7771,7 +7771,7 @@ export namespace Prisma {
     secondRole?: SortOrderInput | SortOrder
     selectedChampions?: SortOrderInput | SortOrder
     priorityOrder?: SortOrder
-    duoWithBooster?: SortOrder
+    premiumCoaching?: SortOrder
     liveStream?: SortOrder
     appearOffline?: SortOrder
     bonusWin?: SortOrder
@@ -7815,7 +7815,7 @@ export namespace Prisma {
     secondRole?: StringNullableWithAggregatesFilter<"Order"> | string | null
     selectedChampions?: JsonNullableWithAggregatesFilter<"Order">
     priorityOrder?: BoolWithAggregatesFilter<"Order"> | boolean
-    duoWithBooster?: BoolWithAggregatesFilter<"Order"> | boolean
+    premiumCoaching?: BoolWithAggregatesFilter<"Order"> | boolean
     liveStream?: BoolWithAggregatesFilter<"Order"> | boolean
     appearOffline?: BoolWithAggregatesFilter<"Order"> | boolean
     bonusWin?: BoolWithAggregatesFilter<"Order"> | boolean
@@ -8106,7 +8106,7 @@ export namespace Prisma {
     secondRole?: string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -8144,7 +8144,7 @@ export namespace Prisma {
     secondRole?: string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -8178,7 +8178,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean
@@ -8216,7 +8216,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean
@@ -8252,7 +8252,7 @@ export namespace Prisma {
     secondRole?: string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -8286,7 +8286,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean
@@ -8322,7 +8322,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean
@@ -8703,7 +8703,7 @@ export namespace Prisma {
     secondRole?: SortOrder
     selectedChampions?: SortOrder
     priorityOrder?: SortOrder
-    duoWithBooster?: SortOrder
+    premiumCoaching?: SortOrder
     liveStream?: SortOrder
     appearOffline?: SortOrder
     bonusWin?: SortOrder
@@ -8749,7 +8749,7 @@ export namespace Prisma {
     firstRole?: SortOrder
     secondRole?: SortOrder
     priorityOrder?: SortOrder
-    duoWithBooster?: SortOrder
+    premiumCoaching?: SortOrder
     liveStream?: SortOrder
     appearOffline?: SortOrder
     bonusWin?: SortOrder
@@ -8784,7 +8784,7 @@ export namespace Prisma {
     firstRole?: SortOrder
     secondRole?: SortOrder
     priorityOrder?: SortOrder
-    duoWithBooster?: SortOrder
+    premiumCoaching?: SortOrder
     liveStream?: SortOrder
     appearOffline?: SortOrder
     bonusWin?: SortOrder
@@ -9473,7 +9473,7 @@ export namespace Prisma {
     secondRole?: string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -9509,7 +9509,7 @@ export namespace Prisma {
     secondRole?: string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -9621,7 +9621,7 @@ export namespace Prisma {
     secondRole?: StringNullableFilter<"Order"> | string | null
     selectedChampions?: JsonNullableFilter<"Order">
     priorityOrder?: BoolFilter<"Order"> | boolean
-    duoWithBooster?: BoolFilter<"Order"> | boolean
+    premiumCoaching?: BoolFilter<"Order"> | boolean
     liveStream?: BoolFilter<"Order"> | boolean
     appearOffline?: BoolFilter<"Order"> | boolean
     bonusWin?: BoolFilter<"Order"> | boolean
@@ -9770,7 +9770,7 @@ export namespace Prisma {
     secondRole?: string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -9806,7 +9806,7 @@ export namespace Prisma {
     secondRole?: string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -10035,7 +10035,7 @@ export namespace Prisma {
     secondRole?: string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -10077,7 +10077,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean
@@ -10113,7 +10113,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean
@@ -10148,7 +10148,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean
@@ -10207,7 +10207,7 @@ export namespace Prisma {
     secondRole?: string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: boolean
-    duoWithBooster?: boolean
+    premiumCoaching?: boolean
     liveStream?: boolean
     appearOffline?: boolean
     bonusWin?: boolean
@@ -10241,7 +10241,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean
@@ -10277,7 +10277,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean
@@ -10312,7 +10312,7 @@ export namespace Prisma {
     secondRole?: NullableStringFieldUpdateOperationsInput | string | null
     selectedChampions?: NullableJsonNullValueInput | InputJsonValue
     priorityOrder?: BoolFieldUpdateOperationsInput | boolean
-    duoWithBooster?: BoolFieldUpdateOperationsInput | boolean
+    premiumCoaching?: BoolFieldUpdateOperationsInput | boolean
     liveStream?: BoolFieldUpdateOperationsInput | boolean
     appearOffline?: BoolFieldUpdateOperationsInput | boolean
     bonusWin?: BoolFieldUpdateOperationsInput | boolean

@@ -22,7 +22,7 @@ const createOrder = async (req, res) => {
             queueType,
             playMode,
             priorityOrder,
-            duoWithBooster,
+            premiumCoaching,
             liveStream,
             appearOffline,
             bonusWin,
@@ -88,7 +88,7 @@ const createOrder = async (req, res) => {
                 playMode: playMode || null,
 
                 priorityOrder: Boolean(priorityOrder),
-                duoWithBooster: Boolean(duoWithBooster),
+                premiumCoaching: Boolean(premiumCoaching),
                 liveStream: Boolean(liveStream),
                 appearOffline: Boolean(appearOffline),
                 bonusWin: Boolean(bonusWin),

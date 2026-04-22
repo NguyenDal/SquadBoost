@@ -67,7 +67,7 @@ model Order {
   selectedChampions Json?
 
   priorityOrder     Boolean     @default(false)
-  duoWithBooster    Boolean     @default(false)
+  premiumCoaching   Boolean     @default(false)
   liveStream        Boolean     @default(false)
   appearOffline     Boolean     @default(false)
   bonusWin          Boolean     @default(false)

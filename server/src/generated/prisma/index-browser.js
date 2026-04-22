@@ -171,7 +171,7 @@ exports.Prisma.OrderScalarFieldEnum = {
   secondRole: 'secondRole',
   selectedChampions: 'selectedChampions',
   priorityOrder: 'priorityOrder',
-  duoWithBooster: 'duoWithBooster',
+  premiumCoaching: 'premiumCoaching',
   liveStream: 'liveStream',
   appearOffline: 'appearOffline',
   bonusWin: 'bonusWin',
