@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import AuthModal from "../components/AuthModal";
 import "../App.css";
 
 function OrderPage() {
@@ -11,6 +13,55 @@ function OrderPage() {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [submitError, setSubmitError] = useState("");
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState("login");
+
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [registerForm, setRegisterForm] = useState({
+    email: "",
+    password: "",
+    role: "CUSTOMER",
+  });
+
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotError, setForgotError] = useState(false);
+
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authMessage, setAuthMessage] = useState("");
+  const [authSuccess, setAuthSuccess] = useState(false);
+  const [authSuccessTitle, setAuthSuccessTitle] = useState("");
+  const [authSuccessText, setAuthSuccessText] = useState("");
+
+  const [loginErrors, setLoginErrors] = useState({
+    email: false,
+    password: false,
+  });
+
+  const [registerErrors, setRegisterErrors] = useState({
+    email: false,
+    password: false,
+  });
+
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem("user");
+      const savedToken = localStorage.getItem("token");
+
+      if (savedUser) return JSON.parse(savedUser);
+      if (savedToken) return { email: "Signed in user" };
+      return null;
+    } catch {
+      return null;
+    }
+  });
+
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  const hasSession = Boolean(localStorage.getItem("token")) || Boolean(currentUser);
 
   const [formData, setFormData] = useState({
     currentRank: "Silver I",
@@ -257,6 +308,9 @@ function OrderPage() {
 
   const totalPrice = (basePrice + addonPrice).toFixed(2);
 
+  const coinCount = Math.floor(Number(totalPrice));
+  const coinValue = (coinCount * 0.1).toFixed(2);
+
   const filteredChampions = allChampions.filter((champion) =>
     champion.name.toLowerCase().includes(championSearch.toLowerCase())
   );
@@ -414,6 +468,165 @@ function OrderPage() {
     }));
   };
 
+  const handleLoginInputChange = (event) => {
+    const { name, value } = event.target;
+
+    setLoginForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setLoginErrors((prev) => ({
+      ...prev,
+      [name]: false,
+    }));
+
+    setAuthMessage("");
+  };
+
+  const handleRegisterInputChange = (event) => {
+    const { name, value } = event.target;
+
+    setRegisterForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setRegisterErrors((prev) => ({
+      ...prev,
+      [name]: false,
+    }));
+
+    setAuthMessage("");
+  };
+
+  const closeAuthModal = () => {
+    setShowAuthModal(false);
+    setAuthMode("login");
+    setAuthLoading(false);
+    setAuthMessage("");
+    setAuthSuccess(false);
+    setAuthSuccessTitle("");
+    setAuthSuccessText("");
+    setForgotEmail("");
+    setForgotError(false);
+
+    setLoginErrors({ email: false, password: false });
+    setRegisterErrors({ email: false, password: false });
+
+    setLoginForm({ email: "", password: "" });
+    setRegisterForm({ email: "", password: "", role: "CUSTOMER" });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setCurrentUser(null);
+    setShowProfileMenu(false);
+  };
+
+  const finishLogin = ({ token, email, profileImage = "", role = "CUSTOMER" }) => {
+    const loggedInUser = { email, profileImage, role };
+
+    localStorage.setItem("token", token || "logged-in");
+    localStorage.setItem("user", JSON.stringify(loggedInUser));
+    setCurrentUser(loggedInUser);
+
+    setAuthLoading(false);
+    setAuthSuccess(true);
+    setAuthMessage("");
+    setAuthSuccessTitle("Login Successful");
+    setAuthSuccessText("Welcome to FastBoost.");
+
+    setTimeout(() => {
+      closeAuthModal();
+    }, 1200);
+  };
+
+  const handleLoginSubmit = async (event) => {
+    event.preventDefault();
+    setAuthLoading(true);
+    setAuthMessage("");
+    setAuthSuccess(false);
+    setLoginErrors({ email: false, password: false });
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginForm),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setLoginErrors({ email: true, password: true });
+        setAuthMessage(data.message || "Incorrect email or password");
+        return;
+      }
+
+      finishLogin({
+        token: data?.token,
+        email: data?.user?.email || data?.email || loginForm.email,
+        profileImage:
+          data?.user?.profileImage ||
+          data?.user?.avatar ||
+          data?.user?.photoUrl ||
+          "",
+        role: data?.user?.role || "CUSTOMER",
+      });
+    } catch {
+      setLoginErrors({ email: true, password: true });
+      setAuthMessage("Could not connect to backend");
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+    const handleRegisterSubmit = async (event) => {
+    event.preventDefault();
+    setAuthLoading(true);
+    setAuthMessage("");
+    setAuthSuccess(false);
+    setRegisterErrors({ email: false, password: false });
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(registerForm),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setRegisterErrors({ email: true, password: true });
+        setAuthMessage(data.message || "Registration failed");
+        return;
+      }
+
+      finishLogin({
+        token: data?.token,
+        email: data?.user?.email || data?.email || registerForm.email,
+        profileImage:
+          data?.user?.profileImage ||
+          data?.user?.avatar ||
+          data?.user?.photoUrl ||
+          "",
+        role: data?.user?.role || "CUSTOMER",
+      });
+    } catch {
+      setRegisterErrors({ email: true, password: true });
+      setAuthMessage("Could not connect to backend");
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -498,6 +711,22 @@ function OrderPage() {
   if (loading) {
     return (
       <div className="order-page-shell">
+        <Navbar
+          hasSession={hasSession}
+          currentUser={currentUser}
+          profileImage={currentUser?.profileImage || ""}
+          showProfileMenu={showProfileMenu}
+          setShowProfileMenu={setShowProfileMenu}
+          setAuthMode={setAuthMode}
+          setAuthMessage={setAuthMessage}
+          setAuthSuccess={setAuthSuccess}
+          setLoginErrors={setLoginErrors}
+          setRegisterErrors={setRegisterErrors}
+          setForgotError={setForgotError}
+          setForgotEmail={setForgotEmail}
+          setShowAuthModal={setShowAuthModal}
+          handleLogout={handleLogout}
+        />
         <div className="order-page-container">
           <p className="info-message">Loading service...</p>
         </div>
@@ -508,6 +737,22 @@ function OrderPage() {
   if (loadError || !service) {
     return (
       <div className="order-page-shell">
+        <Navbar
+          hasSession={hasSession}
+          currentUser={currentUser}
+          profileImage={currentUser?.profileImage || ""}
+          showProfileMenu={showProfileMenu}
+          setShowProfileMenu={setShowProfileMenu}
+          setAuthMode={setAuthMode}
+          setAuthMessage={setAuthMessage}
+          setAuthSuccess={setAuthSuccess}
+          setLoginErrors={setLoginErrors}
+          setRegisterErrors={setRegisterErrors}
+          setForgotError={setForgotError}
+          setForgotEmail={setForgotEmail}
+          setShowAuthModal={setShowAuthModal}
+          handleLogout={handleLogout}
+        />
         <div className="order-page-container">
           <p className="error-message">{loadError || "Service not found."}</p>
           <Link to="/" className="secondary-btn details-link-btn">
@@ -521,22 +766,24 @@ function OrderPage() {
   return (
     <div className="order-page-shell">
       <div className="order-page-bg-overlay" />
+      <Navbar
+        hasSession={hasSession}
+        currentUser={currentUser}
+        profileImage={currentUser?.profileImage || ""}
+        showProfileMenu={showProfileMenu}
+        setShowProfileMenu={setShowProfileMenu}
+        setAuthMode={setAuthMode}
+        setAuthMessage={setAuthMessage}
+        setAuthSuccess={setAuthSuccess}
+        setLoginErrors={setLoginErrors}
+        setRegisterErrors={setRegisterErrors}
+        setForgotError={setForgotError}
+        setForgotEmail={setForgotEmail}
+        setShowAuthModal={setShowAuthModal}
+        handleLogout={handleLogout}
+      />
 
       <div className="order-page-container">
-        <div className="order-page-topbar">
-          <Link to="/" className="order-page-brand">
-            <div className="brand-icon">F</div>
-            <div>
-              <p className="brand-title">FastBoost</p>
-              <p className="brand-subtitle">Order Configurator</p>
-            </div>
-          </Link>
-
-          <Link to="/" className="order-cancel-btn">
-            Back
-          </Link>
-        </div>
-
         <div className="order-page-header order-page-header-compact">
           <div>
             <h1 className="order-page-title compact-title">Order summary</h1>
@@ -1239,9 +1486,20 @@ function OrderPage() {
               </button>
             </div>
 
-            <div className="summary-save-bar">
-              <span>Go higher and save $6 on your order!</span>
+            <div className="summary-coins-card">
+              <p className="summary-coins-label">You'll earn from this order:</p>
+
+              <div className="summary-coins-main">
+                <span className="summary-coins-icon">🪙</span>
+                <strong>{coinCount} coins</strong>
+              </div>
+
+              <p className="summary-coins-value">= ${coinValue} value</p>
             </div>
+
+            <p className="summary-coins-footnote">
+              🪙 10 coins = $1.00 | Earn coins with every order
+            </p>
 
             <div className="order-summary-list">
               <div className="order-summary-row">
@@ -1451,6 +1709,31 @@ function OrderPage() {
             </div>
           </div>
         )}
+
+        <AuthModal
+          showAuthModal={showAuthModal}
+          closeAuthModal={closeAuthModal}
+          authMode={authMode}
+          setAuthMode={setAuthMode}
+          authSuccess={authSuccess}
+          authSuccessTitle={authSuccessTitle}
+          authSuccessText={authSuccessText}
+          loginForm={loginForm}
+          registerForm={registerForm}
+          forgotEmail={forgotEmail}
+          forgotError={forgotError}
+          authLoading={authLoading}
+          authMessage={authMessage}
+          loginErrors={loginErrors}
+          registerErrors={registerErrors}
+          handleLoginInputChange={handleLoginInputChange}
+          handleRegisterInputChange={handleRegisterInputChange}
+          handleLoginSubmit={handleLoginSubmit}
+          handleRegisterSubmit={handleRegisterSubmit}
+          setForgotEmail={setForgotEmail}
+          setForgotError={setForgotError}
+          setAuthMessage={setAuthMessage}
+        />
 
       </div>
     </div>

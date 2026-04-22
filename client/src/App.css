@@ -77,6 +77,14 @@ button {
   font-size: 0.82rem;
 }
 
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+}
+
 .nav {
   display: flex;
   align-items: center;
@@ -2355,6 +2363,50 @@ button {
   height: 72px;
   border-radius: 14px;
   object-fit: cover;
+}
+
+.summary-coins-card {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 166, 0, 0.22);
+  background: linear-gradient(90deg, rgba(255, 170, 60, 0.14), rgba(255, 170, 60, 0.04));
+}
+
+.summary-coins-label {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.summary-coins-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.summary-coins-main strong {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffbe2e;
+}
+
+.summary-coins-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.summary-coins-value {
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #31d0a0;
+}
+
+.summary-coins-footnote {
+  margin: 10px 4px 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.68);
 }
 
 @keyframes championFadeIn {
